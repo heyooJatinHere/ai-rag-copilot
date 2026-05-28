@@ -7,8 +7,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//routers
+//routes
 app.use("/upload", uploadRoutes);
+
+
 
 app.get("/health", (_, res) => {
   res.json({

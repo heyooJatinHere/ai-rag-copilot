@@ -50,7 +50,7 @@ new Worker(
         where: {
           id: documentId,
         },
-        date: {
+        data: {
           status: "COMPLETED",
         },
       });
@@ -60,7 +60,7 @@ new Worker(
         where: {
           id: documentId,
         },
-        date: {
+        data: {
           status: "FAILED",
         }
       });
