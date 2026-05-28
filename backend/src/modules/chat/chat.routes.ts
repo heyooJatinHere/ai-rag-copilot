@@ -1,11 +1,11 @@
 import { Router }
     from "express";
 
-import { search }
-    from "./search.controller";
+import { chat }
+    from "./chat.controller";
 
 const router = Router();
 
-router.get("/", search);
+router.post("/", chat);
 
 export default router;

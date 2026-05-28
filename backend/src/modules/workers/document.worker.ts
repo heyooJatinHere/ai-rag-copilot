@@ -97,7 +97,7 @@ new Worker(
             chunkIndex: i,
           },
         });
-        console.log(embedding?.length);
+        console.log(i);
       }
 
       console.log("TOTAL CHUNKS:", chunks.length);
@@ -154,8 +154,10 @@ new Worker(
       throw error;
     }
   },
-  { connection: {
+  {
+    connection: {
       host: "localhost",
       port: 6379,
-    }, }
+    },
+  }
 );

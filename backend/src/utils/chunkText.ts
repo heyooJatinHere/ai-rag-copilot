@@ -1,40 +1,71 @@
 export const chunkText = (
   text: string,
-  chunkSize = 800
+  chunkSize = 800,
+  overlap = 150
 ) => {
+
   const chunks: string[] = [];
+
   const paragraphs = text
     .split("\n")
-    .map((paragraph) => paragraph.trim())
+    .map((p) => p.trim())
     .filter(Boolean);
 
   let currentChunk = "";
 
-  const pushChunk = (value: string) => {
+  const pushChunk = (
+    value: string
+  ) => {
+
     const trimmed = value.trim();
-    if (trimmed) {
-      chunks.push(trimmed);
+
+    if (!trimmed) {
+      return;
     }
+
+    chunks.push(trimmed);
+
+    currentChunk =
+      trimmed.slice(-overlap);
   };
 
   for (const paragraph of paragraphs) {
-    if (paragraph.length > chunkSize) {
+
+    const nextChunk =
+      currentChunk
+        ? `${currentChunk}\n${paragraph}`
+        : paragraph;
+
+    if (
+      nextChunk.length > chunkSize
+    ) {
+
       pushChunk(currentChunk);
-      currentChunk = "";
 
-      for (let i = 0; i < paragraph.length; i += chunkSize) {
-        pushChunk(paragraph.slice(i, i + chunkSize));
-      }
-      continue;
-    }
-
-    const nextChunk = currentChunk
-      ? `${currentChunk}\n${paragraph}`
-      : paragraph;
-
-    if (nextChunk.length > chunkSize) {
-      pushChunk(currentChunk);
       currentChunk = paragraph;
+
+      if (
+        paragraph.length > chunkSize
+      ) {
+
+        for (
+          let i = 0;
+          i < paragraph.length;
+          i += chunkSize - overlap
+        ) {
+
+          const slice =
+            paragraph.slice(
+              i,
+              i + chunkSize
+            );
+
+          pushChunk(slice);
+        }
+
+        currentChunk = "";
+      }
+
       continue;
     }
 
