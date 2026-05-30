@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #111827;
+
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+
+  --border: #e5e7eb;
+
+  --accent: #2563eb;
+  --accent-deep: #1d4ed8;
+
+  --accent-soft: rgba(37, 99, 235, 0.08);
+
+  --accent-2: #6366f1;
+  --accent-2-soft: rgba(99, 102, 241, 0.08);
+
+  --muted: #6b7280;
+
+  --surface-tint: rgba(255, 255, 255, 0.8);
+
+  --user-bubble: linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #1d4ed8 100%
+  );
+
+  --assistant-bubble: #ffffff;
+
+  --hero-gradient: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.05) 0%,
+    rgba(99, 102, 241, 0.05) 50%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Satoshi", "Avenir Next", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Satoshi", "Avenir Next", "Segoe UI", sans-serif;
+}
+
+
+::selection {
+  background: rgba(76, 201, 240, 0.28);
+}
+
+.glass-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.soft-ring {
+  box-shadow:
+    0 0 0 1px rgba(76, 201, 240, 0.16),
+    0 18px 40px rgba(76, 201, 240, 0.12);
+}
+
+.scroll-fade {
+  mask-image: linear-gradient(180deg, transparent 0, black 4%, black 96%, transparent 100%);
+}
+
+.panel-tint {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent),
+    var(--surface-tint);
+}
+
+.hero-wash {
+  background: var(--hero-gradient);
+}
