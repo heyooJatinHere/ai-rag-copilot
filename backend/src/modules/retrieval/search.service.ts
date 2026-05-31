@@ -5,7 +5,7 @@ import { getQdrantClient }
     from "../../lib/qdrant";
 
 export const searchSimilarChunks =
-    async (query: string) => {
+    async (query: string, documentId: number) => {
 
         const embedding =
             await generateEmbedding(query);
@@ -19,11 +19,22 @@ export const searchSimilarChunks =
                 {
                     vector: embedding,
                     limit: 5,
+
+                    filter: {
+                        must: [
+                            {
+                                key: "documentId",
+                                match: {
+                                    value: documentId,
+                                },
+                            },
+                        ],
+                    },
                 }
             );
 
         const filteredResults = results.filter(
-            (result: { score: number; }) => result.score > 0.7
+            (result: { score: number; }) => result.score > 0.55
         )
 
         const uniqueChunks = new Map();

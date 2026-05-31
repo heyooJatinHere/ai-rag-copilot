@@ -15,8 +15,12 @@ export const uploadPdf = async (
     const result = await uploadDocument(req.file);
 
     res.json(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
+
+    console.log(
+      error?.response?.data
+    )
 
     res.status(500).json({
       error: "Upload failed",

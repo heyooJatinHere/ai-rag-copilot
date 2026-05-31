@@ -8,6 +8,7 @@ import { buildPrompt }
     from "./promptBuilder";
 
 import { streamAnswer } from "./chat.service";
+import { prisma } from "../../lib/prisma";
 
 export const chat =
     async (
@@ -17,16 +18,33 @@ export const chat =
 
         try {
 
-            const { question } = req.body;
+            const {
+                question,
+                documentId,
+                conversationId,
+            } = req.body;
 
-            if (!question) {
+            if (!question || !documentId) {
                 return res.status(400).json({
-                    message: "Question required",
+                    message:
+                        "Question and documentId required",
                 });
             }
 
+            if (conversationId) {
+
+                await prisma.message.create({
+                    data: {
+                        conversationId,
+                        role: "user",
+                        content: question,
+                    },
+                });
+
+            }
+
             const chunks =
-                await searchSimilarChunks(question);
+                await searchSimilarChunks(question, documentId);
 
             if (chunks.length === 0) {
 
@@ -54,6 +72,8 @@ export const chat =
                 "keep-alive"
             );
 
+            let fullAnswer = "";
+
             const stream =
                 await streamAnswer(prompt);
 
@@ -65,7 +85,7 @@ export const chat =
                     chunk.text;
 
                 if (text) {
-
+                    fullAnswer += text;
                     res.write(
                         `data: ${JSON.stringify({
                             text,
@@ -73,6 +93,19 @@ export const chat =
                     );
                 }
             }
+
+            if (conversationId) {
+
+                await prisma.message.create({
+                    data: {
+                        conversationId,
+                        role: "assistant",
+                        content: fullAnswer,
+                    },
+                });
+
+            }
+
             res.write(
                 `data: ${JSON.stringify({
                     done: true,

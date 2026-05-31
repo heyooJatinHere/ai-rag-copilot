@@ -6,6 +6,7 @@ import { search }
 
 const router = Router();
 
+// search?q={query}
 router.get("/", search);
 
 export default router;

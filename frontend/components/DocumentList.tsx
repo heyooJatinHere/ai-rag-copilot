@@ -6,10 +6,14 @@ import type { Document } from "../types/documents";
 
 type Props = {
     documents: Document[];
+    onSelect: (
+        document: Document
+    ) => void;
 };
 
 export default function DocumentList({
     documents,
+    onSelect
 }: Props) {
     const [isOpen, setIsOpen] =
         useState(true);
@@ -43,6 +47,7 @@ export default function DocumentList({
 
                         <div
                             key={doc.id}
+                            onClick={() => onSelect(doc)}
                             className="rounded-md px-2 py-2 hover:bg-gray-50 cursor-pointer"
                         >
 

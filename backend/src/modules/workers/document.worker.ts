@@ -9,7 +9,7 @@ import { ensureQdrantCollection } from "../../lib/qdrant";
 const COLLECTION_NAME = "documents";
 
 const buildPointId = (
-  documentId: string,
+  documentId: number,
   chunkIndex: number
 ) => {
   // Generate a deterministic UUID so retries upsert the same point IDs.

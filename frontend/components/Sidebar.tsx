@@ -7,7 +7,15 @@ import { useState, useEffect, useCallback } from "react";
 import { api } from "../lib/api";
 import Link from "next/link";
 
-export default function Sidebar() {
+type Props = {
+    onSelectDocument: (
+        document: Document
+    ) => void;
+};
+
+export default function Sidebar({
+    onSelectDocument,
+}: Props) {
     const [documents, setDocuments] =
         useState<Document[]>([]);
 
@@ -234,6 +242,9 @@ export default function Sidebar() {
                         <div className="p-2">
                             <DocumentList
                                 documents={documents}
+                                onSelect={
+                                    onSelectDocument
+                                }
                             />
                         </div>
 
